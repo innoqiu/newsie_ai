@@ -23,12 +23,13 @@ class MCPServiceManager:
         self.running = True
 
         # Set default ports
+        #DATE_TIME_HTTP_PORT=8002
         self.ports = {
             "pay": int(os.getenv("PAY_HTTP_PORT", "8007")),
             "search": int(os.getenv("SEARCH_HTTP_PORT", "8001")),
-            "trade": int(os.getenv("TRADE_HTTP_PORT", "8002")),
-            "price": int(os.getenv("GETPRICE_HTTP_PORT", "8003")),
-            "crypto": int(os.getenv("CRYPTO_HTTP_PORT", "8005")),
+            "date_time": int(os.getenv("DATE_TIME_HTTP", "8002")),
+            # "price": int(os.getenv("GETPRICE_HTTP_PORT", "8003")),
+            # "crypto": int(os.getenv("CRYPTO_HTTP_PORT", "8005")),
         }
 
         # Service configurations
@@ -37,9 +38,9 @@ class MCPServiceManager:
             "pay": {"script": os.path.join(mcp_server_dir, "tool_pay.py"), "name": "Pay", "port": self.ports["pay"]},
             # "search": {"script": "tool_jina_search.py", "name": "Search", "port": self.ports["search"]},
             "search": {"script": os.path.join(mcp_server_dir, "retrival_tools.py"), "name": "Search", "port": self.ports["search"]},
-            "trade": {"script": os.path.join(mcp_server_dir, "tool_trade.py"), "name": "TradeTools", "port": self.ports["trade"]},
-            "price": {"script": os.path.join(mcp_server_dir, "tool_get_price_local.py"), "name": "LocalPrices", "port": self.ports["price"]},
-            "crypto": {"script": os.path.join(mcp_server_dir, "tool_crypto_trade.py"), "name": "CryptoTradeTools", "port": self.ports["crypto"]},
+            "date_time": {"script": os.path.join(mcp_server_dir, "tool_trade.py"), "name": "TradeTools", "port": self.ports["date_time"]},
+            # "price": {"script": os.path.join(mcp_server_dir, "tool_get_price_local.py"), "name": "LocalPrices", "port": self.ports["price"]},
+            # "crypto": {"script": os.path.join(mcp_server_dir, "tool_crypto_trade.py"), "name": "CryptoTradeTools", "port": self.ports["crypto"]},
         }
 
         # Create logs directory
@@ -283,14 +284,14 @@ class MCPServiceManager:
 
 def main():
     """Main function"""
-    if len(sys.argv) > 1 and sys.argv[1] == "status":
-        # Status check mode
-        manager = MCPServiceManager()
-        manager.status()
-    else:
-        # Startup mode
-        manager = MCPServiceManager()
-        manager.start_all_services()
+    # if len(sys.argv) > 1 and sys.argv[1] == "status":
+    #     # Status check mode
+    #     manager = MCPServiceManager()
+    #     manager.status()
+    # else:
+    #     # Startup mode
+    manager = MCPServiceManager()
+    manager.start_all_services()
 
 
 if __name__ == "__main__":

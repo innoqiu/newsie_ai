@@ -447,6 +447,7 @@ When adding new agents or tools:
 
 ## License
 
+Not yet applicable
 
 
 **For questions or issues, please check the troubleshooting section or review the agent implementations in `agents/` directory.**

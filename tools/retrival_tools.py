@@ -136,9 +136,17 @@ def get_market_news(
 
 
 if __name__ == "__main__":
-    # Run with streamable-http, support configuring host and port through environment variables to avoid conflicts
+    # 打印当前 CWD 和 PYTHONPATH 帮助 debug
+    import sys
+    print(f"Current Working Directory: {os.getcwd()}")
+    print(f"Python Path: {sys.path}")
 
     port = int(os.getenv("SEARCH_HTTP_PORT", "8001"))
-    print(f"Running Alpha Vantage News Tool as search tool on port {port}")
-    mcp.run(transport="streamable-http", port=port)
+    print(f"Try Running Alpha Vantage News Tool as search tool on port {port}")
+    
+    try:
+        # 建议换个端口试试，比如 8011，看是否还报错
+        mcp.run(transport="streamable-http", port=port)
+    except Exception as e:
+        print(f"Fatal error: {e}")
 

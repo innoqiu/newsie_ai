@@ -13,7 +13,6 @@ import requests
 from tools import start_mcp
 from datetime import datetime
 from dotenv import load_dotenv
-
 # 导入 requests
 # 导入 Agents
 try:
@@ -26,6 +25,13 @@ except ImportError as e:
     sys.exit(1)
 
 from tools.start_mcp import MCPServiceManager 
+
+# Import database initialization
+try:
+    from database import init_database
+except ImportError as e:
+    print(f"Warning: Database module not available: {e}")
+    init_database = None
 
 load_dotenv()
 
@@ -178,11 +184,19 @@ async def test_personal_assistant_agent():
 # =================================================================
 
 def main():
-    # 1. 全局初始化 MCP 管理器
-    manager = MCPServiceManager()
+    # 1. Initialize database
+    if init_database:
+        print("Initializing database...")
+        init_database()
+        print("Database ready!")
+    else:
+        print("Warning: Database initialization skipped (module not available)")
     
+    # 2. 全局初始化 MCP 管理器
+    manager = MCPServiceManager()
+    print("runtest")
     try:
-        # 2. 启动所有服务 (blocking=False，这样代码会继续往下走)
+        # 3. 启动所有服务 (blocking=False，这样代码会继续往下走)
         manager.start_all_services(blocking=False)
         
         while True:
@@ -208,16 +222,20 @@ def main():
                 asyncio.run(test_accountant_agent())
 
             elif choice == "3":
+                print("runtestall")
                 asyncio.run(test_personal_assistant_agent())
 
             elif choice == "4":
                 print("Exiting...")
                 break # 跳出循环，进入 finally 块
             else:
-                print("❌ Invalid selection.")
+                print(" Invalid selection.")
 
     except KeyboardInterrupt:
         print("\n Interrupted by user.")
+    except Exception as e:
+        print (f"caught error {e}")
+
     finally:
         # 3. 无论如何退出（正常退出或报错），都关闭所有服务
         print("\nCleaning up resources...")

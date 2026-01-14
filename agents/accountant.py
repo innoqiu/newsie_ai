@@ -212,7 +212,7 @@ Evaluate the bill against the User Profile's constraints and execute payment if 
             elif "PAYMENT_REJECTED" in payment_result:
                 # Payment was rejected - return rejection message with URL
                 # url = self.payment_context.get("url") or self.payment_context.get("source_url")
-                return f"No valuable information recognized in terms of \n{payment_result}"
+                return f"No valuable information recognized by the agent in terms of \n{payment_result}"
             elif "PAYMENT_FAILED" in payment_result:
                 return payment_result
             else:

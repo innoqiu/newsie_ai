@@ -12,9 +12,9 @@ from langchain_core.messages import HumanMessage, SystemMessage
 # MCP & Model Imports
 from langchain_mcp_adapters.client import MultiServerMCPClient
 from langchain_openai import ChatOpenAI
-
+from .accountant import run_accountant_service
 # Import accountant agent for payment handling
-from agents.accountant import run_accountant_service
+# from accountant import run_accountant_service
 
 load_dotenv()
 

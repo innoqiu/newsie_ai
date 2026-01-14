@@ -13,7 +13,7 @@ from langchain_mcp_adapters.client import MultiServerMCPClient
 from langchain_openai import ChatOpenAI
 
 # Reuse existing news agent
-from agents.retriv import retriv_run_agent
+from .retriv import retriv_run_agent
 
 load_dotenv()
 
@@ -78,7 +78,8 @@ class PersonalAssistantAgent:
             model=os.getenv("OPENAI_MODEL", "gpt-4o-mini"),
             temperature=0.2,
         )
-        self.mcp_client: Optional[MultiServerMCPClient] = None
+        # self.mcp_client: Optional[MultiServerMCPClient] = None
+        self.mcp_client = None
         self.agent_runnable = None
 
         # Internal state for gathered info
@@ -133,7 +134,7 @@ class PersonalAssistantAgent:
         """
         # Example config placeholder
 
-        mcp_config: Dict[str, Dict[str, str]] = {
+        mcp_config = {
             "date_time_tools": {
                 "url": f"http://localhost:{os.getenv('DATE_TIME_HTTP_PORT', '8002')}/mcp",
                 "transport": "streamable-http"
@@ -237,7 +238,6 @@ class PersonalAssistantAgent:
         """
         # Ensure Search MCP (retrival_tools.py) is running externally (as main.py does),
         # or rely on your environment to start it before using this agent.
-        l
         result = await retriv_run_agent(prompt)
         return result
 
@@ -298,7 +298,7 @@ class PersonalAssistantAgent:
         }
         formatted = json.dumps(context_payload, indent=2, ensure_ascii=False)
 
-        system_prompt = f"""You are the Personal Assistant agent for NewsieAI.
+        system_prompt = f"""You are the Personal Assistant agent.
 
 You receive:
 - USER PROFILE
